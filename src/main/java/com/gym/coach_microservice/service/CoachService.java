@@ -26,10 +26,6 @@ public class CoachService {
         return coachRepository.findAll();
     }
     
-    public List<Coach> getActiveCoaches() {
-        return coachRepository.findByIsActiveTrue();
-    }
-    
     public Optional<Coach> getCoachById(Long id) {
         return coachRepository.findById(id);
     }
@@ -42,10 +38,6 @@ public class CoachService {
         return coachRepository.findBySpecialty(specialty);
     }
     
-    public List<Coach> getCoachesByMaxRate(Double maxRate) {
-        return coachRepository.findByHourlyRateLessThanEqual(maxRate);
-    }
-    
     public Coach updateCoach(Long id, Coach coachDetails) {
         Coach coach = coachRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Coach not found with id: " + id));
@@ -55,13 +47,6 @@ public class CoachService {
         coach.setEmail(coachDetails.getEmail());
         
         return coachRepository.save(coach);
-    }
-    
-    public void deactivateCoach(Long id) {
-        Coach coach = coachRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Coach not found with id: " + id));
-        
-        coachRepository.save(coach);
     }
     
     public void deleteCoach(Long id) {

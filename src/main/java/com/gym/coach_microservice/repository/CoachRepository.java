@@ -12,11 +12,7 @@ public interface CoachRepository extends JpaRepository<Coach, Long> {
     
     Optional<Coach> findByEmail(String email);
     
-    List<Coach> findByIsActiveTrue();
-    
     List<Coach> findBySpecialty(String specialty);
-    
-    List<Coach> findByHourlyRateLessThanEqual(Double maxRate);
     
     boolean existsByEmail(String email);
 }
