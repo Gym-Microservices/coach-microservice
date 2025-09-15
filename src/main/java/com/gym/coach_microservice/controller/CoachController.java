@@ -32,7 +32,7 @@ public class CoachController {
             @ApiResponse(responseCode = "200", description = "Coach added successfully"),
             @ApiResponse(responseCode = "400", description = "Error in input data")
     })
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Coach> addCoach(@RequestBody Coach coach) {
         try {
             Coach addedCoach = coachService.addCoach(coach);
@@ -45,7 +45,7 @@ public class CoachController {
     @GetMapping
     @Operation(summary = "Get all coaches", description = "Returns a list of all registered coaches")
     @ApiResponse(responseCode = "200", description = "List of coaches retrieved successfully")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('TRAINER') or hasRole('MEMBER')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_COACH') or hasRole('ROLE_MEMBER')")
     public ResponseEntity<List<Coach>> getAllCoaches() {
         List<Coach> coaches = coachService.getAllCoaches();
         return ResponseEntity.ok(coaches);
@@ -57,7 +57,7 @@ public class CoachController {
             @ApiResponse(responseCode = "200", description = "Coach found"),
             @ApiResponse(responseCode = "404", description = "Coach not found")
     })
-    @PreAuthorize("hasRole('ADMIN') or hasRole('TRAINER') or hasRole('MEMBER')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_COACH') or hasRole('ROLE_MEMBER')")
     public ResponseEntity<Coach> getCoachById(@Parameter(description = "Coach ID") @PathVariable Long id) {
         Optional<Coach> coach = coachService.getCoachById(id);
         return coach.map(ResponseEntity::ok)
@@ -70,7 +70,7 @@ public class CoachController {
             @ApiResponse(responseCode = "200", description = "Coach found"),
             @ApiResponse(responseCode = "404", description = "Coach not found")
     })
-    @PreAuthorize("hasRole('ADMIN') or hasRole('TRAINER') or hasRole('MEMBER')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_COACH') or hasRole('ROLE_MEMBER')")
     public ResponseEntity<Coach> getCoachByEmail(
             @Parameter(description = "Coach email") @PathVariable String email) {
         Optional<Coach> coach = coachService.getCoachByEmail(email);
@@ -81,7 +81,7 @@ public class CoachController {
     @GetMapping("/specialty/{specialty}")
     @Operation(summary = "Get coaches by specialty", description = "Returns all coaches with a specific specialty")
     @ApiResponse(responseCode = "200", description = "List of coaches retrieved successfully")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('TRAINER') or hasRole('MEMBER')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_COACH') or hasRole('ROLE_MEMBER')")
     public ResponseEntity<List<Coach>> getCoachesBySpecialty(
             @Parameter(description = "Coach specialty") @PathVariable String specialty) {
         List<Coach> coaches = coachService.getCoachesBySpecialty(specialty);
@@ -94,7 +94,7 @@ public class CoachController {
             @ApiResponse(responseCode = "200", description = "Coach updated successfully"),
             @ApiResponse(responseCode = "404", description = "Coach not found")
     })
-    @PreAuthorize("hasRole('ADMIN') or hasRole('TRAINER')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_COACH')")
     public ResponseEntity<Coach> updateCoach(@Parameter(description = "Coach ID") @PathVariable Long id,
             @RequestBody Coach coachDetails) {
         try {
@@ -111,7 +111,7 @@ public class CoachController {
             @ApiResponse(responseCode = "200", description = "Coach deleted successfully"),
             @ApiResponse(responseCode = "404", description = "Coach not found")
     })
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> deleteCoach(@Parameter(description = "Coach ID") @PathVariable Long id) {
         coachService.deleteCoach(id);
         return ResponseEntity.ok().build();
